@@ -15,11 +15,13 @@ const buttonStyle = {
     border: 'none',
     height: '3.5rem',
     width: '11rem',
+    maxWidht: '20rem',
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '600',
     fontSize: '1.2rem',
     paddingRight: '-1rem',
     cursor: 'pointer',
+    outline: 'none',
   };
 
 export function SmallButton(props) {
@@ -39,5 +41,28 @@ const smallButtonStyle = {
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: 'bold',
     fontSize: '1.2rem',
-    paddingRight: '-1rem'
+    paddingRight: '-1rem',
+    outline: 'none',
+  };
+
+  export function ButtonReg(props) {
+    return ( 
+        <>
+            <button style={buttonStyleR}>{props.text}</button>
+            
+        </>
+     );
+}
+const buttonStyleR = {
+    borderRadius: '2rem',
+    backgroundColor: colors.YELLOW,
+    border: 'none',
+    height: '3.5rem',
+    width: '20rem',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '600',
+    fontSize: '1.2rem',
+    paddingRight: '-1rem',
+    cursor: 'pointer',
+    outline: 'none',
   };

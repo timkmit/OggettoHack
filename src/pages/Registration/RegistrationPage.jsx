@@ -4,47 +4,49 @@ import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back.png";
 import * as colors from '../../img/colors.jsx'
 
 import '../Registration/style.css'
+import { ButtonReg } from "../../components/Button";
 
 
 
 function Registration() {
-    return ( 
-        <>
+    return (
+      <>
         <header style={headerStyle}>
-      <div style={logoStyle}>
-      <picture>
-            <source media="(max-width: 768px)" srcSet={imgLogoMobile} />
-            <source media="(min-width: 769px)" srcSet={imgLogoDesktop} />
-            <a href="/">
-            <img
-              src={imgLogoDesktop}
-              alt="Лого"
-              style={{
-                height: 'auto',
-                minWidth: '4rem',
-                maxWidth: '14rem', 
-              }}
-            />
-            </a>
-            
-          </picture>
-      </div>
-      
-    </header>
-
-    <div style={bodyStyle}>
-        <div style={formStyle}>
-              <h2 style={{textAlign: 'center', paddingTop: '10px', fontSize: '40px'}}>Регистрация</h2><br/>
-                <input style={ inputStyle } placeholder="Имя" ></input><br />
-                <input style={ inputStyle } placeholder="Фамилия" ></input><br />
-                <input style={ inputStyle } placeholder="Email" ></input><br />
-                <input style={ inputStyle } placeholder="Номер телефона" ></input><br />
-                
-        </div>  
-    </div>
-        </>
-     );
-}
+          <div style={logoStyle}>
+            <picture>
+              <source media="(max-width: 768px)" srcSet={imgLogoMobile} />
+              <source media="(min-width: 769px)" srcSet={imgLogoDesktop} />
+              <a href="/">
+                <img
+                  src={imgLogoDesktop}
+                  alt="Лого"
+                  style={{
+                    height: 'auto',
+                    minWidth: '4rem',
+                    maxWidth: '14rem',
+                  }}
+                />
+              </a>
+            </picture>
+          </div>
+        </header>
+  
+        <div style={bodyStyle}>
+          <div style={formStyle}>
+            <h2 style={{ textAlign: 'center', paddingTop: '10px', fontSize: '40px' }}>Регистрация</h2><br />
+            <input style={inputStyle} placeholder="Имя" /><br />
+            <input style={inputStyle} placeholder="Фамилия" /><br />
+            <input style={inputStyle} placeholder="Email" /><br />
+            <input style={inputStyle} placeholder="Номер телефона" /><br />
+  
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ButtonReg text="Зарегистрироваться" />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 const inputStyle = {
     display: 'block', 
     margin: '0 auto',
