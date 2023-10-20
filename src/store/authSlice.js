@@ -25,8 +25,8 @@ const setError = (state,action)=>{
     state.error = action.payload
   }
   const initialState = {
-    auth: true,
-    role: 'admin',
+    auth: false,
+    role: ' ',
     userInfo:{},
     status: null,
     error:null
