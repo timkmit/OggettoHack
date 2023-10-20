@@ -37,11 +37,12 @@ function Registration() {
             <input style={inputStyle} placeholder="Имя" /><br />
             <input style={inputStyle} placeholder="Фамилия" /><br />
             <input style={inputStyle} placeholder="Email" /><br />
-            <input style={inputStyle} placeholder="Номер телефона" /><br />
+            <input style={inputStyle} placeholder="Пароль" /><br />
   
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <ButtonReg text="Зарегистрироваться" />
             </div>
+            <a href="/login" style={{display: 'flex', justifyContent: 'center', paddingTop: '10px'}}>Войти</a>
           </div>
         </div>
       </>
