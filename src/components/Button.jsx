@@ -16,9 +16,10 @@ const buttonStyle = {
     height: '3.5rem',
     width: '11rem',
     fontFamily: 'Montserrat, sans-serif',
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: '1.2rem',
-    paddingRight: '-1rem'
+    paddingRight: '-1rem',
+    cursor: 'pointer',
   };
 
 export function SmallButton(props) {

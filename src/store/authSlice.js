@@ -25,7 +25,7 @@ const setError = (state,action)=>{
     state.error = action.payload
   }
   const initialState = {
-    auth: false,
+    auth: false, //TYT
     role: ' ',
     userInfo:{},
     status: null,
@@ -36,11 +36,11 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {
         setAuth(state,action){
-            state.auth = true;
+            state.auth = true; 
             state.userInfo = action.payload
         },
         logoutUser(state){
-            state.auth= false;
+            state.auth= false; 
             state.userInfo= {};
         }
 	},
