@@ -1,5 +1,4 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { MEETINGS } from '../img/meet';
 export const fetchAllEvents = createAsyncThunk(
     'users/fetchPosts',
     async function (id,{rejectWithValue}){
@@ -101,7 +100,6 @@ const eventSlice = createSlice({
          },
         changeMeet(state,action){
             console.log(action.payload);
-            const changedMeet = state.events.find((event=>event.id===action.payload.id));
             const index = state.events.findIndex(item=>item.id === action.payload.id);
             if(index!== -1){
                 state.events[index]=action.payload
