@@ -5,8 +5,10 @@ import Registration from "../pages/Registration/RegistrationPage";
 import Login from "../pages/Registration/Login";
 
 export const moderRoutes = [
+    {path: '/', element: MainPage},
     {path: '/moder', element: ModeratorPage},
-    {path: '/userpage',element: UserPage  }
+    {path: '/userpage',element: UserPage  },
+    
 
 ]
 export const publicRoutes = [
@@ -15,5 +17,6 @@ export const publicRoutes = [
     {path: '/login', element: Login}
 ]
 export const userRoutes = [
+    {path: '/', element: MainPage},
     {path: '/userpage',element: UserPage  }
 ]

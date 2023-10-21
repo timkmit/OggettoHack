@@ -37,7 +37,7 @@ function MainPage() {
 
     <div style={bodyStyle}>
         <h1 style={{paddingLeft: '8%', paddingRight: '25%', paddingTop: '4%', fontSize:'66px'}}>Твоя платформа для проведения well-being мероприятий</h1>
-        
+        <a style={{paddingLeft: '8%', paddingRight: '25%', paddingTop: '1%', fontSize:'26px'}}>#oggettowellbeing</a>
 
         <div style={meetingsStyle}>
             <div style={{marginLeft: '10px'}}> 
