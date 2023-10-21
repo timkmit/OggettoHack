@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { changeMeet } from '../store/meetSlice';
 function Modal({ isOpen, onClose, id }) {
-  console.log(id);
   const dispatch = useDispatch();
   const allEvents = useSelector(store=>store.meet.events);
   const event = allEvents.find((event)=>event.id==id);
