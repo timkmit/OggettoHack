@@ -7,8 +7,7 @@ import Login from "../pages/Registration/Login";
 export const moderRoutes = [
     {path: '/', element: MainPage},
     {path: '/moder', element: ModeratorPage},
-    {path: '/userpage',element: UserPage  },
-    
+    {path: '/meetings/:id',element: UserPage  },
 
 ]
 export const publicRoutes = [
@@ -18,5 +17,5 @@ export const publicRoutes = [
 ]
 export const userRoutes = [
     {path: '/', element: MainPage},
-    {path: '/userpage',element: UserPage  }
+    {path: '/meetings/id',element: UserPage  }
 ]

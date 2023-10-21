@@ -32,17 +32,36 @@ function MainPage() {
       <picture>
             <source media="(max-width: 768px)" srcSet={imgLogoMobile} />
             <source media="(min-width: 769px)" srcSet={imgLogoDesktop} />
-            <a href="/">
-            <img
-              src={imgLogoDesktop}
-              alt="Лого"
-              style={{
-                height: 'auto',
-                minWidth: '4rem',
-                maxWidth: '14rem', 
-              }}
-            />
-            </a>
+            <Link
+                    key={meeting.id}
+                    to={`/meetings/${meeting.id}`}
+                    style={noStyleLink}
+                    id={meeting.id}>
+                    <div style={meetingDivStyle}>
+                        <a
+                            style={{
+                                textDecoration: 'none',
+                                fontSize: '22px',
+                                cursor: 'pointer'
+                            }}>
+                            <span
+                                style={{
+                                    fontWeight: 'bold'
+                                }}>{meeting.name}</span>
+                        </a>
+                        <p/>
+                        <a
+                            style={{
+                                fontSize: '22px'
+                            }}>{' -> '}{meeting.topic}<p/>{' -> '}</a>
+                        <a
+                            style={{
+                                fontSize: '22px'
+                            }}>{meeting.date}
+                            <p/> {' -> '}
+                            {meeting.author}</a>
+                    </div>
+                </Link>
           </picture>
       </div>
       <div >
@@ -82,6 +101,11 @@ function MainPage() {
     </div>
         </>
      );
+}
+
+const noStyleLink = {
+  textDecoration: 'none',
+  color: 'inherit'
 }
 
 const meetingDivStyle = {

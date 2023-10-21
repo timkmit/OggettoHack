@@ -1,8 +1,12 @@
 import { useState,useEffect } from 'react';
 import '../../src/components/modal.css'
+
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { changeMeet } from '../store/meetSlice';
+
+import * as colors from '../img/colors.jsx';
+
 function Modal({ isOpen, onClose, id }) {
   const dispatch = useDispatch();
   const allEvents = useSelector(store=>store.meet.events);
@@ -46,33 +50,94 @@ function Modal({ isOpen, onClose, id }) {
   }
   return (
     <div className="modal-overlay">
-      <div className="modal">
+    <div className="modal">
         <div className="modal-header">
-          <input type="text" onChange={(e)=>setEventName(e.target.value)} value={eventName} />
-          <button onClick={onClose} className="close-button">
-            Закрыть
-          </button>
+            <input
+                type="text"
+                onChange={(e) => setEventName(e.target.value)}
+                value={eventName}
+                style={inputEdit}/>
+            <button onClick={onClose} className="close-button">
+                Закрыть
+            </button>
         </div>
         <div className="modal-content">
-          <input type="text" onChange={(e)=>setEventTopic(e.target.value)} value={eventTopic} />
-          <input type="text" onChange={(e)=>setEventAuthor(e.target.value)} value={eventAuthor} />
-          <input type="text" onChange={(e)=>setEventDate(e.target.value)} value={eventDate}  />
-          <h3>Материалы</h3>
-          <p>{event.materials}</p>
-          <div className='modal-members'>
-            <h3>Участники</h3>
-            {eventMembers.map((member)=> 
-            <div className='modal-member' key={member.id}>
-              <p >{member.text}</p>
-              <button>Удалить</button>
+            {'Тема: '}<input
+                type="text"
+                onChange={(e) => setEventTopic(e.target.value)}
+                value={eventTopic}
+                style={inputEdit}/>
+            <a
+                style={{
+                    paddingTop: '20px'
+                }}>{'Автор: '}</a><input
+                type="text"
+                onChange={(e) => setEventAuthor(e.target.value)}
+                value={eventAuthor}
+                style={inputEdit}/>
+            <a
+                style={{
+                    paddingTop: '20px'
+                }}>{'Дата: '}</a><input
+                type="text"
+                onChange={(e) => setEventDate(e.target.value)}
+                value={eventDate}
+                style={inputEdit}/>
+            <a
+                style={{
+                    paddingTop: '20px',
+                    paddingBottom: '20px'
+                }}>{'Материалы: '}</a>
+            <a
+                style={{
+                    fontSize: '24px'
+                }}>{event.materials}</a>
+            <div className='modal-members'>
+                <div
+                    style={{
+                        paddingTop: '20px',
+                        paddingBottom: '20px'
+                    }}>{'Участники: '}</div><p/> {
+                    eventMembers.map(
+                        (member) => <div className='modal-member' key={member.id}>
+                            <p style={inputEdit}>{' -'}{member.text}</p>
+                            <button style={inputPeopleEdit}>Удалить</button>
+                        </div>
+                    )
+                }
+                <button onClick={changeOrAdd} style={buttonEdit}>Сохранить изменения</button>
             </div>
-            )}
-            <button onClick={changeOrAdd}>Добавить/Изменить</button>
-          </div>
         </div>
-      </div>
     </div>
+</div>
   );
 }
+
+const inputPeopleEdit = {
+  borderRadius: '2rem',
+  backgroundColor: colors.RED,
+  border: 'none',
+  height: '1.4rem',
+  marginTop: '0.3rem',
+  color: colors.WHITE,
+  fontSize: '10px',
+  cursor: 'poiner'
+};
+
+const buttonEdit = {
+  borderRadius: '2rem',
+  backgroundColor: colors.YELLOW,
+  border: 'none',
+  height: '2.3rem',
+  fontWeight: 'bold',
+  marginTop: '2rem',
+  cursor: 'poiner'
+};
+
+const inputEdit = {
+  textDecoration: 'none',
+  border: 'none',
+  fontSize: '24px'
+};
 
 export default Modal;
