@@ -1,7 +1,8 @@
+import { func } from "prop-types";
 import { API_URL } from "../services";
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 export const fetchAllEvents = createAsyncThunk(
-    'users/fetchPosts',
+    'events/fetchEvents',
     async function (_,{rejectWithValue}){
         try{
             const response = await fetch(`${API_URL}/meetups`,{
@@ -60,7 +61,27 @@ export const addNewEvent = createAsyncThunk(
         }
     } 
 )
-
+export const changeEvent = createAsyncThunk(
+    'events/changeEvent',
+    async function(event,{rejectWithValue,dispatch}){
+        try {
+            const response = await fetch(`${API_URL}/meetup/${event.id}/update`,{
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "access" : localStorage.getItem('AccessToken')
+                },
+                body: JSON.stringify(event)
+            })
+            if (!response.ok){
+                throw new Error('Cannot delete task. Server Error!');
+              }
+              dispatch(changeMeet(event))
+        }catch(error){
+            return rejectWithValue(error.message)
+        }
+    }
+)
 const setError = (state,action)=>{
     state.status = 'rejected';
     state.error = action.payload
@@ -69,28 +90,6 @@ const eventSlice = createSlice({
 	name: 'events', // название слайса
 	initialState: { 
         events: [
-            // {id: 1, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 2, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 3, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 4, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 5, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 6, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 7, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 8, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 9, name: "Созвон с пиццой", actual: false, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 10, name: "Созвон с чиксами", actual: false, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-            // {id: 11, name: "Созвон с пиццой", actual: false, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-            // qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
             
             ],
         status: null,
@@ -121,6 +120,7 @@ const eventSlice = createSlice({
             state.status = 'resolved';
             state.events = action.payload;
         },
+        [changeEvent.rejected]:setError,
         [fetchAllEvents.rejected]:setError,
         [delEvent.rejected]:setError,
         [addNewEvent.rejected]:setError

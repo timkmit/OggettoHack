@@ -109,7 +109,7 @@ function ModeratorPage() {
                 
                 </a><p/>
                 <a style={{ fontSize: '22px' }}>{' -> '}{meeting.description}<p/>{' -> '}</a>
-                <a style={{ fontSize: '22px' }}>{meeting.date} <p/> {' -> '} {meeting.speaker.profile_id}</a>
+                <a style={{ fontSize: '22px' }}>{meeting.speaker ? meeting?.speaker?.profile?.first_name + ' ' + meeting?.speaker?.profile?.last_name : ''}</a>
                 
             </div>
         ))}
