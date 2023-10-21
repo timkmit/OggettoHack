@@ -125,6 +125,11 @@ const noStyleLink = {
     color: 'inherit'
 }
 
+const noStyleLink = {
+  textDecoration: 'none',
+  color: 'inherit'
+}
+
 const meetingDivStyle = {
     backgroundColor: 'rgba(999, 999, 999, 0.5',
     cursor: 'pointer',
