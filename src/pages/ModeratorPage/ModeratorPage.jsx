@@ -19,10 +19,11 @@ function ModeratorPage() {
     const toggleActiveEvents = () => {
         setActiveEvents(!activeEvents);
     };
+    console.log(meetings);
     useEffect(()=>{
       dispatch(fetchAllEvents())
     },[dispatch])
-    // const filteredMeetings = meetings.filter((meeting) => meeting.actual === activeEvents);
+    const filteredMeetings = meetings.filter((meeting) => meeting.active === activeEvents);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalId,setModalId] = useState();
@@ -93,7 +94,7 @@ function ModeratorPage() {
         </div>
 
         <div style={{ ":hover": meetingDivHoverStyle }}>
-        {meetings.map((meeting) => (
+        {filteredMeetings.map((meeting) => (
             <div key={meeting.id} style={{ ...meetingDivStyle }} onClick={() => openModal(meeting.id)}>
                 <a
                 
@@ -104,11 +105,11 @@ function ModeratorPage() {
                 }}
                 
                 >
-                    <span style={{fontWeight:'bold'}}>{meeting.name}</span>
+                    <span style={{fontWeight:'bold'}}>{meeting.title}</span>
                 
                 </a><p/>
-                <a style={{ fontSize: '22px' }}>{' -> '}{meeting.topic}<p/>{' -> '}</a>
-                <a style={{ fontSize: '22px' }}>{meeting.date} <p/> {' -> '} {meeting.author}</a>
+                <a style={{ fontSize: '22px' }}>{' -> '}{meeting.description}<p/>{' -> '}</a>
+                <a style={{ fontSize: '22px' }}>{meeting.date} <p/> {' -> '} {meeting.speaker.profile_id}</a>
                 
             </div>
         ))}

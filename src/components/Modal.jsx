@@ -6,22 +6,23 @@ import { changeMeet } from '../store/meetSlice';
 function Modal({ isOpen, onClose, id }) {
   const dispatch = useDispatch();
   const allEvents = useSelector(store=>store.meet.events);
+  console.log(allEvents);
   const event = allEvents.find((event)=>event.id==id);
   const [changble, setChangble] = useState(false);
   const [eventName,setEventName]=useState('');
   const [eventTopic,setEventTopic] = useState('');
   const [eventAuthor,setEventAuthor] = useState('');
   const [eventDate,setEventDate] = useState('');
-  const [eventMembers, setEventMembers] = useState([]);
+  // const [eventMembers, setEventMembers] = useState([]);
   useEffect(()=>{
     if(id){
-      setEventName(event.name);
-      setEventTopic(event.topic);
-      setEventAuthor(event.author);
-      setEventDate(event.date);
-      setEventMembers(event.feedback);
+      setEventName(event.title);
+      setEventTopic(event.description);
+      setEventAuthor(event.speaker.profile_id);
+      // setEventDate(event.date);
+      // setEventMembers(event.feedback);
       setChangble(true);
-      console.log(eventMembers);
+      // console.log(eventMembers);
     }
   },[id])
   if (!isOpen) {
@@ -61,12 +62,6 @@ function Modal({ isOpen, onClose, id }) {
           <p>{event.materials}</p>
           <div className='modal-members'>
             <h3>Участники</h3>
-            {eventMembers.map((member)=> 
-            <div className='modal-member' key={member.id}>
-              <p >{member.text}</p>
-              <button>Удалить</button>
-            </div>
-            )}
             <button onClick={changeOrAdd}>Добавить/Изменить</button>
           </div>
         </div>
