@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../ModeratorPage/style.css'
 
@@ -9,18 +9,20 @@ import * as colors from '../../img/colors.jsx'
 
 import Modal from '../../components/Modal';
 
-import { useSelector } from 'react-redux';
-
+import { useSelector,useDispatch } from 'react-redux';
+import { fetchAllEvents } from '../../store/meetSlice';
 function ModeratorPage() {
-
+    const dispatch = useDispatch();
     const [activeEvents, setActiveEvents] = useState(true);
     const [showAddButton, setShowAddButton] = useState(true);
     const meetings = useSelector(store => store.meet.events);
     const toggleActiveEvents = () => {
         setActiveEvents(!activeEvents);
     };
-
-    const filteredMeetings = meetings.filter((meeting) => meeting.actual === activeEvents);
+    useEffect(()=>{
+      dispatch(fetchAllEvents())
+    },[dispatch])
+    // const filteredMeetings = meetings.filter((meeting) => meeting.actual === activeEvents);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalId,setModalId] = useState();
@@ -91,7 +93,7 @@ function ModeratorPage() {
         </div>
 
         <div style={{ ":hover": meetingDivHoverStyle }}>
-        {filteredMeetings.map((meeting) => (
+        {meetings.map((meeting) => (
             <div key={meeting.id} style={{ ...meetingDivStyle }} onClick={() => openModal(meeting.id)}>
                 <a
                 
