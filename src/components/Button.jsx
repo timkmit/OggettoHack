@@ -45,10 +45,10 @@ const smallButtonStyle = {
     outline: 'none',
   };
 
-  export function ButtonReg(props) {
+  export function ButtonReg({text, ...props}) {
     return ( 
         <>
-            <button style={buttonStyleR}>{props.text}</button>
+            <button {...props} style={buttonStyleR}>{text}</button>
             
         </>
      );

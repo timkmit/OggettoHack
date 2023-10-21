@@ -1,16 +1,39 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { API_URL } from "../services";
 export const setUserAuth = createAsyncThunk(
     'users/setUserAuth',
     async function ({login,password},{rejectWithValue,dispatch}){
         try{
-            const response = await fetch(`placeholder`)
+            const response = await fetch(`${API_URL}/auth/login`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type' : 'application/json;charset=utf-8',
+                },
+
+
+                body: JSON.stringify({login:login,password: password })
+            })
             if(!response.ok){
             throw new Error('Server Error!');
             }
             const data = await response.json();
-            console.log(data)
-            if(data.id){
-                dispatch(setAuth(data))
+            // console.log(data.data.tokens.access)
+            localStorage.setItem('AccessToken', data.data.tokens.access);
+            if(data.status=='200'){
+                console.log({headers:{
+                    'access': localStorage.getItem('AccessToken')
+                }})
+                const response = await fetch(`${API_URL}/user/profile`,{
+                    headers:{
+                        'access': localStorage.getItem('AccessToken')
+                    }
+                });
+                if(!response.ok){
+                    throw new Error('Server Error!');
+                }
+                const data = await response.json();
+                console.log(data.data.user)
+                dispatch(setAuth(data.data.user))
             }
         }
         catch(error){
@@ -25,8 +48,7 @@ const setError = (state,action)=>{
     state.error = action.payload
   }
   const initialState = {
-    auth: true, //TYT
-    role: 'admin',
+    auth: false, //TYT
     userInfo:{},
     status: null,
     error:null

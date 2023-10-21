@@ -2,13 +2,17 @@ import imgLogoMobile from "../../img/oggetto-flat-logo.png";
 import imgLogoDesktop from "../../img/oggetto-logo_tonal-hor-rus.png";
 import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back.png";
 import * as colors from '../../img/colors.jsx'
-
+import { useDispatch } from "react-redux";
 import '../Registration/style.css'
 import { ButtonReg } from "../../components/Button";
-
-
+import { setUserAuth } from "../../store/authSlice";
+import { useState } from "react";
 
 function Login() {
+  const dispatch = useDispatch();
+  const [login,setLogin] = useState('');
+  const [password,setPassword] = useState('');
+
     return (
       <>
         <header style={headerStyle}>
@@ -34,11 +38,11 @@ function Login() {
         <div style={bodyStyle}>
           <div style={formStyle}>
             <h2 style={{ textAlign: 'center', paddingTop: '10px', fontSize: '40px' }}>Вход</h2><br />
-            <input style={inputStyle} placeholder="Email" /><br />
-            <input style={inputStyle} placeholder="Пароль" /><br />
+            <input style={inputStyle} value={login} onChange={(e)=>{setLogin(e.target.value)}} placeholder="Email" /><br />
+            <input style={inputStyle} value={password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Пароль" /><br />
   
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ButtonReg text="Войти" />
+              <ButtonReg onClick={()=>{dispatch(setUserAuth({login, password}));console.log('asdasd')}} text="Войти" />
             </div>
             <a href="/registration" style={{display: 'flex', justifyContent: 'center', paddingTop: '10px'}}>Регистрация</a>
           </div>
