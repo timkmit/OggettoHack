@@ -120,10 +120,6 @@ function MainPage() {
     );
 }
 
-const noStyleLink = {
-    textDecoration: 'none',
-    color: 'inherit'
-}
 
 const noStyleLink = {
   textDecoration: 'none',
