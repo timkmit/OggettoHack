@@ -4,38 +4,13 @@ import '../ModeratorPage/style.css'
 
 import imgLogoMobile from "../../img/oggetto-flat-logo.png";
 import imgLogoDesktop from "../../img/oggetto-logo_tonal-hor-rus.png";
-import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back.png";
+import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back-big.jpg";
 import * as colors from '../../img/colors.jsx'
 
 import Modal from '../../components/Modal';
 
+import * as meeting from '../../img/meet.jsx'
 
-const MEETINGS =[
-
-{id: 1, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 2, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 3, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 4, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 5, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 6, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 7, name: "Созвон с чиксами", actual: true, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 8, name: "Созвон с пиццой", actual: true, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 9, name: "Созвон с пиццой", actual: false, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 10, name: "Созвон с чиксами", actual: false, author: "Вика Матильдова", date: "21.10.2023", topic: "Животноводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-{id: 11, name: "Созвон с пиццой", actual: false, author: "Витя Матильдов", date: "21.10.2023", topic: "Пиццаводство", materials: "url", 
-qa: [{id: 1, text: "blablalbla"}, {id:2, text: "damn so cool"}], feedback: [ {id: 1, text:"kirill"}, {id:2, text:"danya"}] },
-
-];
 
 
 function ModeratorPage() {
@@ -47,7 +22,7 @@ function ModeratorPage() {
         setActiveEvents(!activeEvents);
     };
 
-    const filteredMeetings = MEETINGS.filter((meeting) => meeting.actual === activeEvents);
+    const filteredMeetings = meeting.MEETINGS.filter((meeting) => meeting.actual === activeEvents);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState('');
@@ -119,7 +94,7 @@ function ModeratorPage() {
 
         <div style={{ ":hover": meetingDivHoverStyle }}>
         {filteredMeetings.map((meeting) => (
-            <div key={meeting.id} style={{ ...meetingDivStyle }}>
+            <div key={meeting.id} style={{ ...meetingDivStyle }} onClick={() => openModal(meeting.name, meeting.topic)}>
                 <a
                 
                 style={{
@@ -127,12 +102,14 @@ function ModeratorPage() {
                     fontSize: '22px',
                     cursor: 'pointer',
                 }}
-                onClick={() => openModal(meeting.name, meeting.topic)}
+                
                 >
-                {meeting.name}
-                </a>
-                <a style={{ fontSize: '22px' }}>{' / '}{meeting.topic}{' / '}</a>
-                <a style={{ fontSize: '22px' }}>{meeting.date} / {meeting.author}</a>
+                    <span style={{fontWeight:'bold'}}>{meeting.name}</span>
+                
+                </a><p/>
+                <a style={{ fontSize: '22px' }}>{' -> '}{meeting.topic}<p/>{' -> '}</a>
+                <a style={{ fontSize: '22px' }}>{meeting.date} <p/> {' -> '} {meeting.author}</a>
+                
             </div>
         ))}
         </div>
@@ -178,7 +155,8 @@ const meetingDivStyle = {
     paddingTop: '10px',
     paddingDown: '10px',
     padding: '5px',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    height: 'auto'
   };
   
   const meetingDivHoverStyle = {
@@ -189,7 +167,7 @@ const meetingDivStyle = {
   const meetingsStyle = {
     backgroundColor: 'rgba(999, 999, 999, 0.5',
     width: '1100px',
-    height: '600px',
+    height: 'auto',
     margin: '0 auto',
     marginTop: '50px',
     borderRadius: '10px',
@@ -199,7 +177,8 @@ const bodyStyle = {
     paddingTop: '2rem',
     backgroundImage: `url(${imgLogoDesktopBack})`,
     backgroundSize: 'cover',
-    height: '1000px'
+    backgroundRepeat: 'repeat',
+    minHeight: '1400px',
 };
 
 const headerStyle = {
