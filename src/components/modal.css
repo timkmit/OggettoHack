@@ -19,7 +19,20 @@
     width: 400px;
     padding: 20px;
   }
-  
+  .modal-content{
+    display: flex;
+    flex-direction: column;
+    font-weight: normal;
+  }
+  .modal-content input{
+    font-family: Montserrat, sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    margin-top: 15px;
+  }
+  .modal-content input:first-child{
+    margin-top: 0;
+  }
   .modal-header {
     display: flex;
     justify-content: space-between;
@@ -27,10 +40,17 @@
     margin-bottom: 10px;
   }
   
-  .modal-header h3 {
+  .modal-header input {
+    font-weight: bold;
+    font-size: 25px;
     margin: 0;
   }
-  
+  .modal-member{
+    display: flex;
+  }
+  .modal-member p{
+    margin-right: 20px;
+  }
   .close-button {
     background: none;
     border: none;

@@ -9,29 +9,27 @@ import * as colors from '../../img/colors.jsx'
 
 import Modal from '../../components/Modal';
 
-import * as meeting from '../../img/meet.jsx'
-
-
+import { useSelector } from 'react-redux';
 
 function ModeratorPage() {
 
     const [activeEvents, setActiveEvents] = useState(true);
     const [showAddButton, setShowAddButton] = useState(true);
-
+    const meetings = useSelector(store => store.meet.events);
     const toggleActiveEvents = () => {
         setActiveEvents(!activeEvents);
     };
 
-    const filteredMeetings = meeting.MEETINGS.filter((meeting) => meeting.actual === activeEvents);
+    const filteredMeetings = meetings.filter((meeting) => meeting.actual === activeEvents);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState('');
-    const [modalTitle, setModalTitle] = useState('');
+    const [modalId,setModalId] = useState();
 
     // Функция для открытия модального окна
-    const openModal = (title, content) => {
-        setModalTitle(title);
-        setModalContent(content);
+    const openModal = (id) => {
+        // setModalTitle(title);
+        // setModalContent(content);
+        setModalId(id);
         setIsModalOpen(true);
     };
 
@@ -94,7 +92,7 @@ function ModeratorPage() {
 
         <div style={{ ":hover": meetingDivHoverStyle }}>
         {filteredMeetings.map((meeting) => (
-            <div key={meeting.id} style={{ ...meetingDivStyle }} onClick={() => openModal(meeting.name, meeting.topic)}>
+            <div key={meeting.id} style={{ ...meetingDivStyle }} onClick={() => openModal(meeting.id)}>
                 <a
                 
                 style={{
@@ -131,8 +129,7 @@ function ModeratorPage() {
     <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={modalTitle}
-        content={modalContent}
+        id={modalId}
       />
         </>
         </>
