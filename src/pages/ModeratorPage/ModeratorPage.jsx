@@ -7,6 +7,8 @@ import imgLogoDesktop from "../../img/oggetto-logo_tonal-hor-rus.png";
 import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back.png";
 import * as colors from '../../img/colors.jsx'
 
+import Modal from '../../components/Modal';
+
 
 const MEETINGS =[
 
@@ -46,6 +48,22 @@ function ModeratorPage() {
     };
 
     const filteredMeetings = MEETINGS.filter((meeting) => meeting.actual === activeEvents);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState('');
+    const [modalTitle, setModalTitle] = useState('');
+
+    // Функция для открытия модального окна
+    const openModal = (title, content) => {
+        setModalTitle(title);
+        setModalContent(content);
+        setIsModalOpen(true);
+    };
+
+    // Функция для закрытия модального окна
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     return ( 
         <>
@@ -100,34 +118,45 @@ function ModeratorPage() {
         </div>
 
         <div style={{ ":hover": meetingDivHoverStyle }}>
-          {filteredMeetings.map((meeting) => (
+        {filteredMeetings.map((meeting) => (
             <div key={meeting.id} style={{ ...meetingDivStyle }}>
-              <a
-                href={meeting.materials}
+                <a
+                
                 style={{
-                  textDecoration: 'none',
-                  fontSize: '22px'
+                    textDecoration: 'none',
+                    fontSize: '22px',
+                    cursor: 'pointer',
                 }}
-              >
-                {meeting.name} {' '}
-              </a>
-              - 
-              <a style={{ fontSize: '22px' }}>{meeting.topic}</a>
-              <a style={{ fontSize: '22px' }}>{meeting.date}, {meeting.author}</a>
+                onClick={() => openModal(meeting.name, meeting.topic)}
+                >
+                {meeting.name}
+                </a>
+                <a style={{ fontSize: '22px' }}>{' / '}{meeting.topic}{' / '}</a>
+                <a style={{ fontSize: '22px' }}>{meeting.date} / {meeting.author}</a>
             </div>
-          ))}
+        ))}
         </div>
 
         {activeEvents && showAddButton && (
-        <div style={buttonAddStyle}>
-          <a>+Добавить</a>{/*TODO: сделать модальное окно чтобы добавлять */}
-        </div>
-      )}
-      </div>
+            <div style={buttonAddStyle}>
+            <a>+Добавить</a><p/>{/*TODO: сделать модальное окно чтобы добавлять */}
+            <a>-Удалить</a>{/*TODO: сделать модальное окно с подтверждением о удалении */}
+            </div>
+        )}
+
+            
+         </div>
 
         
 
     </div>
+
+    <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalContent}
+      />
         </>
         </>
      );
