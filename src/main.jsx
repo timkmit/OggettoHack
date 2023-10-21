@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <>
+  <script src="bundle.js"></script>
   <React.StrictMode>
     <BrowserRouter>
     <Provider store={store}>
@@ -15,5 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Routes>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </>
+  
 )
