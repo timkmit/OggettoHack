@@ -8,7 +8,7 @@ import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back-big.jpg";
 import * as colors from '../../img/colors.jsx'
 
 import Modal from '../../components/Modal';
-
+import ModalForCreation from '../../components/ModalForCreation';
 import { useSelector,useDispatch } from 'react-redux';
 import { fetchAllEvents } from '../../store/meetSlice';
 function ModeratorPage() {
@@ -26,6 +26,8 @@ function ModeratorPage() {
     const filteredMeetings = meetings.filter((meeting) => meeting.active === activeEvents);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+
     const [modalId,setModalId] = useState();
 
     // Функция для открытия модального окна
@@ -35,7 +37,13 @@ function ModeratorPage() {
         setModalId(id);
         setIsModalOpen(true);
     };
+    const openCreationModal = () =>{
+      setIsCreationModalOpen(true);
+    }
+    const closeCreationModalOpen =()=>{
+      setIsCreationModalOpen(false);
 
+    }
     // Функция для закрытия модального окна
     const closeModal = () => {
         setIsModalOpen(false);
@@ -117,8 +125,7 @@ function ModeratorPage() {
 
         {activeEvents && showAddButton && (
             <div style={buttonAddStyle}>
-            <a>+Добавить</a><p/>{/*TODO: сделать модальное окно чтобы добавлять */}
-            <a>-Удалить</a>{/*TODO: сделать модальное окно с подтверждением о удалении */}
+            <button onClick={()=>openCreationModal()}>Создать</button>
             </div>
         )}
 
@@ -128,7 +135,10 @@ function ModeratorPage() {
         
 
     </div>
-
+    <ModalForCreation
+    isOpen={isCreationModalOpen}
+    onClose={closeCreationModalOpen}
+    />
     <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

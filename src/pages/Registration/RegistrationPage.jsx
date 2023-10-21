@@ -2,13 +2,18 @@ import imgLogoMobile from "../../img/oggetto-flat-logo.png";
 import imgLogoDesktop from "../../img/oggetto-logo_tonal-hor-rus.png";
 import imgLogoDesktopBack from "../../img/oggetto-flat-logo-back.png";
 import * as colors from '../../img/colors.jsx'
-
+import { useState } from "react";
 import '../Registration/style.css'
 import { ButtonReg } from "../../components/Button";
-
-
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../store/authSlice";
 
 function Registration() {
+  const dispatch = useDispatch();
+  const [name,setName] = useState('');
+  const [surname,setSurname] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
     return (
       <>
         <header style={headerStyle}>
@@ -34,13 +39,13 @@ function Registration() {
         <div style={bodyStyle}>
           <div style={formStyle}>
             <h2 style={{ textAlign: 'center', paddingTop: '10px', fontSize: '40px' }}>Регистрация</h2><br />
-            <input style={inputStyle} placeholder="Имя" /><br />
-            <input style={inputStyle} placeholder="Фамилия" /><br />
-            <input style={inputStyle} placeholder="Email" /><br />
-            <input style={inputStyle} placeholder="Пароль" /><br />
+            <input style={inputStyle} value={name} onChange={(e)=>{setName(e.target.value)}} placeholder="Имя" /><br />
+            <input style={inputStyle} value={surname} onChange={(e)=>{setSurname(e.target.value)}} placeholder="Фамилия" /><br />
+            <input style={inputStyle} value={login} onChange={(e)=>{setLogin(e.target.value)}} placeholder="Email" /><br />
+            <input style={inputStyle} value={password} onChange={(e)=>{setPassword(e.target.value)}} placeholder="Пароль" /><br />
   
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ButtonReg text="Зарегистрироваться" />
+              <ButtonReg onClick={()=>{dispatch(registerUser({name,surname,login,password}))}} text="Зарегистрироваться" />
             </div>
             <a href="/login" style={{display: 'flex', justifyContent: 'center', paddingTop: '10px'}}>Войти</a>
           </div>

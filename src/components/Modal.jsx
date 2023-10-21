@@ -1,30 +1,70 @@
+import { API_URL } from '../services';
 import { useState,useEffect } from 'react';
 import '../../src/components/modal.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { changeMeet } from '../store/meetSlice';
 import {changeEvent} from '../store/meetSlice';
 function Modal({ isOpen, onClose, id }) {
   const dispatch = useDispatch();
   const allEvents = useSelector(store=>store.meet.events);
-  console.log(allEvents);
   const event = allEvents.find((event)=>event.id==id);
   const [changble, setChangble] = useState(false);
   const [eventName,setEventName]=useState('');
   const [eventTopic,setEventTopic] = useState('');
-  const [eventAuthor,setEventAuthor] = useState('');
   const [eventStatus, setEventStatus] = useState('');
+  const [speakers, setSpeakers] = useState([]);
+  const [speakerId, setSpeakerId] = useState('');
   // const [eventMembers, setEventMembers] = useState([]);
+  const fetchSpeakers = async() =>{
+    try{
+      const response = await fetch(`${API_URL}/speakers`,{
+          headers:{
+              'access': localStorage.getItem('AccessToken')
+          }
+      });
+      if(!response.ok){
+      throw new Error('Server Error!');
+      }
+      const data = await response.json();
+      // console.log(data.data.speakers);
+      return Array.from(data.data.speakers);
+  }
+  catch(error){
+      console.log(error);
+  }
+  }
+  const changeSpeaker = async()=>{
+    try{
+      console.log("id is " + speakerId, id)
+      console.log(JSON.stringify({id: speakerId}))
+      const response = await fetch (`${API_URL}/meetup/${id}/assign`,{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+          'access': localStorage.getItem('AccessToken')
+        },
+        body: JSON.stringify({id: speakerId})
+      })
+      if(!response.ok){
+        throw new Error('Server Error!');
+        }
+    }catch(e){
+      console.log(e)
+    }
+  }
   useEffect(()=>{
     if(id){
       setEventName(event.title);
       setEventTopic(event.description);
-      // setEventStatus(event.active);
-      if(event.speaker){
-        setEventAuthor(event?.speaker?.profile?.first_name + ' ' + event?.speaker?.profile?.last_name);
-      }
+      setEventStatus(event.active);
       setChangble(true);
     }
+  },[id])
+  useEffect(()=>{
+    fetchSpeakers().then((speak) => {
+      setSpeakers(speak);
+      console.log(speakers);
+    });
   },[id])
   const handleSelectChange=(e)=>{
     setEventStatus(!!e.target.value)
@@ -39,7 +79,12 @@ function Modal({ isOpen, onClose, id }) {
     newEvent.active=eventStatus;
     if(changble){
       console.log(newEvent);
+      if(speakerId){
+        console.log(speakerId)
+        changeSpeaker();
+      }
       dispatch(changeEvent(newEvent));
+      
     }
   }
   return (
@@ -53,7 +98,14 @@ function Modal({ isOpen, onClose, id }) {
         </div>
         <div className="modal-content">
           <input type="text" onChange={(e)=>setEventTopic(e.target.value)} value={eventTopic} />
-          <input type="text" onChange={(e)=>setEventAuthor(e.target.value)} value={eventAuthor} />
+          <select defaultValue='value1' onChange={(e)=>setSpeakerId(e.target.value)}>
+            <option disabled value="value1">Выбор ментора</option>
+            {speakers.map(speaker=>
+            <option key={speaker.id} value={speaker.id}>
+                {speaker?.profile?.first_name + ' ' + speaker?.profile?.last_name}
+            </option>
+            )}
+            </select>
           <select defaultValue='choice' onChange={handleSelectChange}>
             <option disabled  value="choice">Выбор статуса</option>
             <option value="true">Активно</option>

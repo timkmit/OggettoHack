@@ -22,39 +22,25 @@ export const fetchAllEvents = createAsyncThunk(
         
     }
 )
-export const delEvent = createAsyncThunk(
-    'users/delUser',
-    async function(id,{rejectWithValue,dispatch}){
-        try {
-            const response = await fetch(`placeholder`,{
-                method: 'DELETE',
-            })
-            if (!response.ok){
-                throw new Error('Cannot delete task. Server Error!');
-              }
-              dispatch(removePost(id))
-        }catch(error){
-            return rejectWithValue(error.message)
-        }
-    }
-)
 export const addNewEvent = createAsyncThunk(
-    'users/addNewPost',
-    async function({rejectWithValue,dispatch}){
+    'users/addNewEvent',
+    async function(title,{rejectWithValue,dispatch}){
         try{
-            const response = await fetch('placeholder',{
+            const response = await fetch(`${API_URL}/meetup/create`,{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'access': localStorage.getItem('AccessToken')
                 },
-                body: JSON.stringify()
+                body: JSON.stringify({title:title})
             })
             if (!response.ok){
                 throw new Error('Cannot add task. Server Error!');
               }
            
               const data = await response.json();
-                dispatch(addPost(data))
+              console.log(data.data.meetup)
+                dispatch(addEvent(data.data.meetup))
         }
         catch(error){
             return rejectWithValue(error.message)
@@ -96,12 +82,9 @@ const eventSlice = createSlice({
         error:null
 },
 	reducers: {
-        addPost(state,action){
-            state.posts.push(action.payload);
+        addEvent(state,action){
+            state.events.push(action.payload);
         },
-        removePost(state,action){
-            state.posts= state.events.filter((event)=>event.id!==action.payload)
-         },
         changeMeet(state,action){
             console.log(action.payload);
             const index = state.events.findIndex(item=>item.id === action.payload.id);
@@ -120,12 +103,12 @@ const eventSlice = createSlice({
             state.status = 'resolved';
             state.events = action.payload;
         },
+
         [changeEvent.rejected]:setError,
         [fetchAllEvents.rejected]:setError,
-        [delEvent.rejected]:setError,
         [addNewEvent.rejected]:setError
     }
 	
 });
-export const {addPost,removePost,changeMeet} = eventSlice.actions;
+export const {addEvent,changeMeet} = eventSlice.actions;
 export default eventSlice.reducer;

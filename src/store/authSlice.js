@@ -42,7 +42,49 @@ export const setUserAuth = createAsyncThunk(
         
     }
 )
+export const registerUser = createAsyncThunk(
+    'users/registerUser',
+    async function ({login,password,name,surname},{rejectWithValue,dispatch}){
+        try{
+            const response = await fetch(`${API_URL}/auth/signup`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type' : 'application/json;charset=utf-8',
+                },
 
+
+                body: JSON.stringify({login:login,password: password,first_name:name, last_name:surname })
+            })
+            if(!response.ok){
+            throw new Error('Server Error!');
+            }
+            const data = await response.json();
+            // console.log(data.data.tokens.access)
+            localStorage.setItem('AccessToken', data.data.tokens.access);
+            if(data.status=='201'){
+                console.log({headers:{
+                    'access': localStorage.getItem('AccessToken')
+                }})
+                const response = await fetch(`${API_URL}/user/profile`,{
+                    headers:{
+                        'access': localStorage.getItem('AccessToken')
+                    }
+                });
+                if(!response.ok){
+                    throw new Error('Server Error!');
+                }
+                const data = await response.json();
+                console.log(data.data.user)
+                dispatch(setAuth(data.data.user))
+            }
+        }
+        catch(error){
+            return rejectWithValue(error.message);
+        }
+
+    }
+
+    )
 const setError = (state,action)=>{
     state.status = 'rejected';
     state.error = action.payload
@@ -72,8 +114,11 @@ const authSlice = createSlice({
             state.error = null;
         },
         [setUserAuth.rejected]:setError,
-        [setUserAuth.rejected]:setError,
-
+        [registerUser.pending]:(state)=>{
+            state.status = 'loading';
+            state.error = null;
+        },
+        [registerUser.rejected]:setError,
     }
 	
 });
